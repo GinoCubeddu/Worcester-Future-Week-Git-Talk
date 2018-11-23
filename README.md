@@ -4,14 +4,14 @@
 
 ## A Note on Vim
 
-Throughout this workshop you will be working with `git` on the command line. Sometimes that involves using the editor known as `vim`. There are only three basic things you need to know about this program:
+Throughout this workshop you will be working with `git` on the command line. Sometimes that involves using the editor known as `vim`. There are a few basic things you need to know about this program:
 
 * When you enter vim press `i` on your keyboard to make it editable
 * To exit edit mode press `esc`
 * To exit vim and save your work type `:wq` while **NOT** in edit mode
 * Tp exit vim and **NOT** save your work type `:q!` while **NOT** in edit mode.
 
-Don't worry, you will only have to use this for a very small part.
+Don't worry, you will only have to use this for a very small part and I am here to help.
 
 ## Getting Started
 

@@ -31,35 +31,8 @@ This introduction will be covering how to interact with Git and GitHub through t
 
 ### Installing Git
 
-The university machines already have the tools needed to do the required tasks however these instructions provide a point of interest for installing git at home.
+The university machines should already have the tools needed to do the required tasks. [This](#Installing-Git-On-Your-Own-Devices) section describes how to install git on your own device.
 
-#### Windows
-
-Git for windows can be downloaded at their website [here](https://git-scm.com/downloads). This will install both git bash and the git GUI tool.
-
-#### Mac
-
-Git is easily installed on mac through a [Brew](https://brew.sh/) command. To do this simply open the terminal and type the following command.
-
-```shell
-brew install git
-```
-
-If you do not have Brew installed you can download it by following the instructions on their [website](https://brew.sh/).
-
-#### Linux (Debian Based)
-
-Again as on Mac Git is easily installed on Linux through the terminal but without the help of a 3rd party installer. On Linux simply open the terminal and type the following commands.
-
-```shell
-sudo apt-get update
-sudo apt-get install git
-```
-
-Command Breakdown
-
-* `sudo` - This tells the terminal to run the command with admin privileges
-* `apt-get` - apt is the package manager for Debian based Linux systems.  
 
 ## Exercise one
 
@@ -69,7 +42,7 @@ Please complete the [Getting Started](#getting-started) section first.
 
 Now that git has been installed on your local machine the first thing that we need to do is tell git who you are. To start open the terminal (Git Bash for windows) and type the following commands.
 
-```shell
+```bash
 git config --global user.name "Your Username"
 git config --global user.email "Your Email"
 ```
@@ -86,11 +59,17 @@ git config --global user.email "Your Email"
 
 * `user.email` - The config option for telling git what your email is
 
+### Authentication
 
+Now that git knows who you are it is time for us to set up authorisation between your computer and GitHub. For this we can either set up an SSH key or use your username and password.
 
-Now that git knows who you are it is time for us to set up authorisation between your computer and GitHub. For this we are going to use a SSH key as discussed within the presentation. To do this enter the following command into your terminal and press the return key for each step.
+SSH has the benefit of not having to enter your credentials whenever you want to interact with your remote repository, however you do have to do a little setup for the machine that you are on. I would suggest using your username and password for university computers and create an SSH key for your own machines.
 
-```shell
+#### SSH Set Up
+
+For this we are going to use a SSH key as discussed within the presentation. To do this enter the following command into your terminal and press the return key for each step.
+
+```bash
 ssh-keygen -t rsa -b 4096 -C "YOUR_EMAIL"
 ```
 
@@ -104,7 +83,7 @@ ssh-keygen -t rsa -b 4096 -C "YOUR_EMAIL"
 
 Once the key has been generated you will be able to find it in your newly created ssh directory. To access the key use the following command which will output it to the terminal. Once you have the key go [here](https://github.com/settings/keys), click "New SSH key" and add the key.
 
-```shell
+```bash
 cat ~/.ssh/id_rsa.pub
 ```
 
@@ -121,11 +100,17 @@ If everything went according to plan we should now be able to move onto cloning 
 
 To clone your repo type the following into the terminal.
 
-```shell
+```bash
 cd ~/Desktop
 mkdir repos
 cd repos
 git clone git@github.com:YOUR_GITHUB_USERNAME/REPO_NAME
+```
+
+**NOTE:** If you are using your username and password then you need to clone via the web URL.
+
+```bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/REPO_NAME
 ```
 
 **Command Breakdown**
@@ -140,31 +125,45 @@ git clone git@github.com:YOUR_GITHUB_USERNAME/REPO_NAME
 
 Now that we have cloned the repo it is time to make our first change! To do so follow the instructions below.
 
+Either choose to make a change via your favourite [text editor](#making-a-change---text-editor) or via the [terminal](#making-a-change---terminal)
+
+
+#### Making A Change - Text Editor
+
+Open the directory in your favourite text editor, then create a file called `aboutme.txt`, fill it with a short statement and save it.
+
+Now that you have made a change swap back to the terminal and continue to [Making The First Commit](#Making-The-First-Commit).
+
+#### Making A Change - Terminal
 1. Change directory to the repo we just cloned.
 
-   ```shell
+   ```bash
    Gino@Gino-PC ~/Desktop/repos
    $ cd MyFirstRepo/
    ```
 
 2. Create a file called "aboutme.txt" using the `touch` command. The `touch` command creates an empty file with the name we provide.
 
-   ```shell
+   ```bash
    Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
    $ touch aboutme.txt
    ```
 
 3. `echo` a short sentence into the file or edit the file by navigating to it in the explorer. `echo` is a command that tells the terminal to input a line of text into a file.
+
    **NOTE**: When using `echo` with one `>` it will overwrite everything in the file however if you use two `>>` it will append the echo to the end of the file.
 
-   ```shell
+   ```bash
    Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
    $ echo "Hello my name is Gino" > aboutme.txt
    ```
 
-4. Now that we have made a change to the repo we can check its status through the `git status` command. The status command will tell us what is "staged" and what is not. When something is staged it means it will be included in your next commit.
 
-   ```shell
+#### Making The First Commit
+
+1. Now that we have made a change to the repo we can check its status through the `git status` command. The status command will tell us what is "staged" and what is not. When something is staged it means it will be included in your next commit.
+
+   ```bash
    Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
    $ git status
    On branch master
@@ -179,16 +178,16 @@ Now that we have cloned the repo it is time to make our first change! To do so f
 
    Notice that it tells us that our file is untracked this means that it will not be included within our commit.
 
-5. To fix this we need to use the `git add` command to "add" it to the next commit.
+1. To fix this we need to use the `git add` command to "add" it to the next commit.
 
-   ```shell
+   ```bash
    Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
    $ git add aboutme.txt
    ```
 
-6. Now that we have added the file lets check the status again.
+1. Now that we have added the file lets check the status again.
 
-   ```shell
+   ```bash
    Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
    $ git status
    On branch master
@@ -201,9 +200,9 @@ Now that we have cloned the repo it is time to make our first change! To do so f
 
    Notice that this time the file comes under the "Changes to be committed" list and git has noticed that it was a totally new file.
 
-7. Since we are now sure that the file will be committed we can use the `git commit` command in order to "commit" the changes with a message. A "commit" is a record of the changes that you have just made. A commit can be made up of a single file or hundreds of files.
+1. Since we are now sure that the file will be committed we can use the `git commit` command in order to "commit" the changes with a message. A "commit" is a record of the changes that you have just made. A commit can be made up of a single file or hundreds of files.
 
-   ```shell
+   ```bash
    Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
    $ git commit -m "Added my bio to a text file"
    [master 763e052] Added my bio to a text file
@@ -211,9 +210,9 @@ Now that we have cloned the repo it is time to make our first change! To do so f
     create mode 100644 aboutme.txt
    ```
 
-8. Now that we have committed our change lets push it back to the remote repo on GitHub. To do this we will use the `git push` command. This command tells git to push it back to the remote repository.
+1. Now that we have committed our change lets push it back to the remote repo on GitHub. To do this we will use the `git push` command. This command tells git to push it back to the remote repository.
 
-   ```shell
+   ```bash
    Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
    $ git push origin master
    Counting objects: 3, done.
@@ -227,20 +226,22 @@ Now that we have cloned the repo it is time to make our first change! To do so f
 
    Notice that I added the words `origin master`. The word `origin` means push to where we got the repo from (Which was your repo on GitHub) and the word `master` is the branch we are pushing to which in this case is called master. **NOTE**: When working on projects you should be working on separate branches and not on the master branch.
 
-9. Now that we have created the file and pushed it you should be able to see it within your GitHub repo.
+1. Now that we have created the file and pushed it you should be able to see it within your GitHub repo.
 
 ## Exercise two
 
-In this exercise we will experience working on a repository with other people. This includes doing your work on your own branches that will be merged into master at a later date instead of everyone just working on the master branch as that can get messy. It will also introduce you to opening a pull request on a repo and the code review process.
+In this exercise we will experience working on a repository with other people. This will involve doing work on your own branches which will then get merged into master. If everyone just worked on master things can get very messy very quickly. It will also introduce you to opening a pull request on a repo and the code review process.
 
 To start with everyone should have filled out the [google form](https://docs.google.com/forms/d/e/1FAIpQLSfORqcDrZuOXfYstzrBHPvG4768ha4K7BDQqw9dEd1FQ0pAKw/viewform?usp=sf_link) informing me of your GitHub username so I can give you write permissions.
 
 Since we have already setup your local git instance we can jump straight into cloning the repo to your local machine.
 
- ```shell
+ ```bash
+Gino@Gino-PC MINGW64 ~/Desktop/repos/MyFirstRepo (master)
+$ cd ../
 Gino@Gino-PC MINGW64 ~/Desktop/repos
-$ git clone git@github.com:GinoCubeddu/Worcester-Future-Week-Git-Talk
-Cloning into 'Worcester-Future-Week-Git-Talk'...
+$ git clone git@github.com:GinoCubeddu/Git-Talk
+Cloning into 'Git-Talk'...
 remote: Counting objects: 6, done.
 remote: Compressing objects: 100% (3/3), done.
 remote: Total 6 (delta 0), reused 6 (delta 0), pack-reused 0
@@ -248,13 +249,17 @@ Receiving objects: 100% (6/6), done.
 Checking connectivity... done.
  ```
 
+(Use `git clone https://github.com/GinoCubeddu/Git-Talk` if you have not set up an SSH key.)
+
+`cd ../` Means go up one directory. We do this so we clone within the `repos` folder and not the `MyFirstRepo` folder which is a git repository already. To go up more than one directory simply add more `../` to the command such as `cd ../../`.
+
 It is important to note that you need to use my username for the cloning and not your own. This is because the remote repository is stored under my personal account.
 
-Now that we have the repository cloned we should `checkout` to a new branch. When I say `checkout` that means we want to swap to a different branch to work on. There are two ways to do this:
+Now that we have the repository cloned we should enter it though `cd` and `checkout` to a new branch. When I say `checkout` that means we want to swap to a different branch to work on. There are two ways to do this:
 
 **Way 1**
 
-```shell
+```bash
 git branch $BRANCH_NAME
 git checkout $BRANCH_NAME
 ```
@@ -268,17 +273,17 @@ git checkout $BRANCH_NAME
 
 The second way only requires a single command which allows you to save time.
 
-```shell
+```bash
 git checkout -b $BRANCH_NAME
 ```
 
 Notice the `-b` after the `git checkout` this is basically telling git to create a new branch before checking out to it. Note that if you attempt to change to a branch that exists when using the `-b` argument you will receive an error.
 
-When you are on your own branch (You can check what branch you are on by typing `git branch`) open the project directory in your favroute text editor and create a file with any extension (such as `html`, `css`, `php`, `cs`, `py`, etc) in the `submissions` folder called "USERNAME_YEAR" and add some context to it.
+When you are on your own branch (You can check what branch you are on by typing `git branch`) open the project directory in your favourite text editor and create a file with any extension (such as `html`, `css`, `php`, `cs`, `py`, etc) in the `submissions` folder called "USERNAME_YEAR" and add some context to it.
 
 **Helpful Hint:** If you have a text editor such as atom installed on your machine you are able to open the project directory from the command line through this command:
 
-```shell
+```bash
 atom .
 ```
 
@@ -287,13 +292,13 @@ atom .
 * `atom` - Tells the terminal to use the atom text editor to open a file/folder
 * `.` - This means open the current directory, this can be switched out with a file or folder name
 
-Once you have created your folder we are ready to commit and push the file as we did in steps `4-8` in the previous exercise. The process was as follows:
+Once you have created your folder and added your file we are ready to commit and push the file as we did in [Making The First Commit](#Making-The-First-Commit). The process was as follows:
 
 1. Check the current status of your local repo
-2. Add the files that you want to commit that are unstaged
-3. Check the status again to ensure the correct files have been added
-4. Commit the file(s) with a useful message
-5. Push your files to the remote repository (**NOTE:** Push to your branch and not the master branch)
+1. Add the files that you want to commit that are unstaged
+1. Check the status again to ensure the correct files have been added
+1. Commit the file(s) with a useful message
+1. Push your files to the remote repository (**NOTE:** Push to your branch and not the master branch)
 
 If everything went well you should be able to see your branch on the remote GitHub Repository and be able to open a pull request against the master branch in order to merge your changes. To do this follow these steps:
 
@@ -304,11 +309,14 @@ If everything went well you should be able to see your branch on the remote GitH
 2. Once you are on your branch you should be able to see your file within the `submissions` folder. If you are indeed able to see your file you are ready to make a pull Request. In order to do this click the button that says "New pull request" next to the branch name drop down.
 
 3. This should take you to a page to open a pull request where you are able to review your changes, name the pull request and give a brief description before opening the pull request.
+
    ![Image of opening a pull request](images/open_pull_request.png)
 
 4. Once you click "Create pull request" you will be taken to the pull request page where people will be able to comment, approve or deny your request. If you go away from this page it is easily accessible again through the pull requests tab.
 
-The final part of this exercise requires to open up the Pull Request of the person sat next to you, look at the files they have changed and leave a comment on their code. Once you have done that approve their pull request. This can be done by clicking on the "review changes" button on the files tab. **Note:** You are able to leave a comment on a certain line of code by clicking on the `+` at the beginning of the line.
+The final part of this exercise requires you to review the Pull Request of the person sat next to you. Open their request, look at the files they have changed and leave a comment on their code. Once you have done that approve their pull request. This can be done by clicking on the "review changes" button on the files tab.
+
+ **Note:** You are able to leave a comment on a certain line of code by clicking on the `+` at the beginning of the line.
 
 ![Showing how to approve a pull request](images/approve_pull_request.png)
 
@@ -330,7 +338,7 @@ First lets create a new repo or use your current one. When within your repo chec
 
 Now that you have made some changes and have multiple commits we can look at our commit history with the following:
 
-```shell
+```bash
 git log
 ```
 
@@ -338,7 +346,7 @@ This command will print out your commit history with your latest commit at the t
 
 Here is my output:
 
-```shell
+```bash
 ✔ [Gino] ~/Desktop/repos/GH/my-test-repo [my-branch L|✔]
 19:30 $ git log
 commit 122e41095dfce89aec0be1b711804037b76e39f2 (HEAD -> my-branch)
@@ -372,7 +380,7 @@ In terms of a clean history, commits such as `added spaces` and `removed line` a
 
 In this case the bogus commits are relevant to the branch that we are on and to the script so we should combine them into one. We do that with:
 
-```shell
+```bash
 ✔ [Gino] ~/Desktop/repos/GH/my-test-repo [my-branch L|✔]
 19:54 $ git rebase -i HEAD~3
 ```
@@ -386,7 +394,7 @@ In this case the bogus commits are relevant to the branch that we are on and to 
 
 
 Which will bring you to something like this:
-```shell
+```bash
 1 pick c63b376 Adds a script
 2 pick e221471 added space
 3 pick 122e410 removed line
@@ -422,7 +430,7 @@ Our aim here is to clean up the history so we are going to mold the three commit
 
 Since the latest two commits (`122e410` and `e221471`) do not have very helpful or meaningful commit messages we will use `fixup` to keep the changes but remove the messages. You should edit the file to look like this:
 
-```shell
+```bash
 1 pick c63b376 Adds a script
 2 f e221471 added space
 3 f 122e410 removed line
@@ -452,7 +460,7 @@ Note that we are keeping the main commit as `pick` as thats the one we want to c
 Once this has been done go ahead and re-check the log:
 
 
-```shell
+```bash
 ✔ [Gino] ~/Desktop/repos/GH/my-test-repo [my-branch L|✔]
 21:17 $ git log
 commit 180e1bff5c68add41e28c334a7149511caa5c142 (HEAD -> my-branch)
@@ -471,7 +479,7 @@ Date:   Mon Nov 19 19:24:02 2018 +0000
 Note that the three commits have become one and while keeping the first commit message a new commit hash has been assigned to it. While these changes are good, that commit message is not that great, so lets rebase again but this time choose `reword` in order to give it a better message.
 
 
-```shell
+```bash
 ✔ [Gino] ~/Desktop/repos/GH/my-test-repo [my-branch L|✔]
 21:24 $ git rebase -i HEAD~1
   1 r 180e1bf Adds a script
@@ -498,7 +506,7 @@ Note that the three commits have become one and while keeping the first commit m
 
 After picking this you will be presented with a new view where you can alter the commit message, after altering your commit message take another look at the log and you will see your new message.
 
-```shell
+```bash
 ✔ [Gino] ~/Desktop/repos/GH/my-test-repo [my-branch L|✔]
 22:26 $ git log
 commit 507042e49d688ea0685c5dea57fc43c0448708cb (HEAD -> my-branch)
@@ -523,9 +531,43 @@ The final thing to do after a rebase is to push it to your remote repository, wi
 
 **IMPORTANT NOTE ABOUT THE `-f` OPTION:** the `-f` option stands for force. When you force push something to your remote repository it will disregard any safety features in place and place your current version of the code and history there. This means if you accidentally force push something to master you could do un reversible damage. Only use `-f` when pushing to your NON-MASTER branches.
 
-```shell
+```bash
 git push -f origin my-branch
 ```
+
+## Installing Git On Your Own Devices
+
+Below describes how to install git on your own devices.
+
+#### Windows
+
+Git for windows can be downloaded at their website [here](https://git-scm.com/downloads). This will install both git bash and the git GUI tool.
+
+#### Mac
+
+Git is easily installed on mac through a [Brew](https://brew.sh/) command. To do this simply open the terminal and type the following command.
+
+```bash
+brew install git
+```
+
+If you do not have Brew installed you can download it by following the instructions on their [website](https://brew.sh/).
+
+#### Linux (Debian Based)
+
+Again as on Mac Git is easily installed on Linux through the terminal but without the help of a 3rd party installer. On Linux simply open the terminal and type the following commands.
+
+```bash
+sudo apt-get update
+sudo apt-get install git
+```
+
+Command Breakdown
+
+* `sudo` - This tells the terminal to run the command with admin privileges
+* `apt-get` - apt is the package manager for Debian based Linux systems.  
+
+
 
 ## Further Reading
 
